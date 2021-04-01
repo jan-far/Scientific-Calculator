@@ -92,22 +92,18 @@ const calculate = () => {
   return;
 };
 
-RadianBtn.addEventListener("click", (event) => {
-  modeToggle()
-  RadianBtn.classList.toggle("active-mode");
-  DegreeBtn.classList.toggle("active-mode");
-})
-
-DegreeBtn.addEventListener("click", (event) => {
-  modeToggle()
-  RadianBtn.classList.toggle("active-mode");
-  DegreeBtn.classList.toggle("active-mode");
-})
-
-const modeToggle = () => {
-  modeToggle
-  RADIAN = !RADIAN;
-  DEGREE = !DEGREE;
+const modeToggle = (key) => {
+  if (key === "Rad") {
+    RADIAN = true;
+    DEGREE = false;
+    RadianBtn.classList.add("active-mode");
+    DegreeBtn.classList.remove("active-mode");
+  } else {
+    RADIAN = false;
+    DEGREE = true;
+    RadianBtn.classList.remove("active-mode");
+    DegreeBtn.classList.add("active-mode");
+  }
 };
 
 // LISTEN TO ONCLICK EVENT IN THE CALCULATOR BUTTONS AREA
@@ -125,6 +121,9 @@ buttons.addEventListener("click", (event) => {
   }
 
   switch (buttonType) {
+    case "key":
+      modeToggle(symbol);
+      break;
     case "number":
       updateData(value, symbol);
       break;
