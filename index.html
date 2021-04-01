@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Calculator</title>
+  </head>
+  <body>
+    <div class="calculator">
+      <div class="output">
+        <div class="operation">
+          <div class="value"></div>
+        </div>
+
+        <div class="result">
+          <div class="value">0</div>
+        </div>
+      </div>
+
+      <div class="calculator-keys">
+        <div class="mode">
+          <span class="modeTitle">Mode: </span>
+          <button class="key" id="Rad" value="Rad">Rad</button>
+          <button class="key" id="Deg" value="Deg" >Deg</button>
+        </div>
+
+        <div class="functions">
+          <button class="math_function" value="Math.pow(">𝒙²</button>
+          <button class="number" value="(">(</button>
+          <button class="number" value=")">)</button>
+          <button class="reset" id="reset">C</button>
+          <button class="clear" id="clear">⌫</button>
+
+          <button class="math_function" value="Math.pow(">𝒙ʸ</button>
+          <button class="math_function" value="!">𝒙!</button>
+          <button class="trig_function" value="Math.cos">cos</button>
+          <button class="trig_function" value="Math.sin">sin</button>
+          <button class="trig_function" value="Math.tan">tan</button>
+
+          <button class="math_function" value="Math.exp">exp</button>
+          <button class="number" value="Math.E">℮</button>
+          <button class="arc_trig_function" value="Math.acos">cos⁻¹</button>
+          <button class="arc_trig_function" value="Math.asin">sin⁻¹</button>
+          <button class="arc_trig_function" value="Math.atan">tan⁻¹</button>
+
+          <button class="math_function" value="Math.log">ln</button>
+          <button class="math_function" value="Math.log10">log</button>
+          <button class="math_function" value="Math.sqrt">√</button>
+          <button class="number" value="/100">%</𝛑button>
+          <button class="number" value="Math.PI">𝛑</button>
+        </div>
+
+        <div class="operators">
+          <button class="operator" value="/">÷</button>
+          <button class="operator" value="*">x</button>
+          <button class="operator" value="-">-</button>
+          <button class="operator" value="+">+</button>
+        </div>
+        
+        <button class="number" value="7">7</button>
+        <button class="number" value="8">8</button>
+        <button class="number" value="9">9</button>
+        
+        
+        <button class="number" value="4">4</button>
+        <button class="number" value="5">5</button>
+        <button class="number" value="6">6</button>
+        
+        <button class="number" value="1">1</button>
+        <button class="number" value="2">2</button>
+        <button class="number" value="3">3</button>
+        
+        <button class="decimal" value=".">.</button>
+        <button class="number" value="0">0</button>
+        <button class="number" value="00">00</button>
+        <button class="number" value="ans">ANS</button>
+
+        <button class="equalSign calculate" value="=">=</button>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
