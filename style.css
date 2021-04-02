@@ -52,7 +52,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100vw - 100vw/2);
+  width: calc(100vw - 100vw / 2);
   min-width: 350px;
   max-width: 420px;
   -webkit-box-shadow: 3px 3px 1px #686a72, -3px -3px 6px #a6aed1;
@@ -114,8 +114,7 @@ body {
   color: aliceblue;
 }
 
-.functions *:active,
-.functions *:focus {
+.functions *:active {
   background: linear-gradient(90deg, rgba(2, 88, 2, 0.7), rgb(9, 77, 29, 0.7));
   color: aliceblue;
 }
@@ -127,9 +126,7 @@ body {
 }
 
 .trig_function:active,
-.arc_trig_function:active,
-.trig_function:focus,
-.arc_trig_function:focus {
+.arc_trig_function:active{
   background: linear-gradient(45deg, #067b80, rgb(4, 119, 39));
   color: #dfdfe6;
 }
@@ -146,8 +143,7 @@ button {
   );
 }
 
-button:active,
-button:focus {
+button:active{
   background: linear-gradient(
     90deg,
     rgba(0, 0, 0, 0.2),
@@ -167,8 +163,7 @@ button:focus {
   background: rgb(77, 141, 143);
 }
 
-.operator:active,
-.operator:focus {
+.operator:active {
   background: linear-gradient(-45deg, cadetblue, rgba(31, 73, 75, 0.8));
 }
 
@@ -182,8 +177,7 @@ button:focus {
   color: whitesmoke;
 }
 
-#clear:active,
-#clear:focus {
+#clear:active {
   background: linear-gradient(-45deg, rgb(151, 65, 50, 0.7), tomato);
 }
 
@@ -201,9 +195,9 @@ button:focus {
   color: wheat;
 }
 
-@media screen and  (max-width: 480px) {
+@media screen and (max-width: 480px) {
   body {
-    padding:10px 0px;
+    padding: 10px 0px;
     width: 100vw;
     overflow-x: hidden;
   }
