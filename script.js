@@ -17,11 +17,26 @@ let DEGREE = false;
 const POWER = "Math.pow(";
 const FACTORIAL = "factorial(";
 const OPERATORS = ["+", "-", "/", "*"];
+
+// SEARCH FUNCTION - RETURNS AN ARRAY OF POSITION INDEXes OF KEYWORD
 const search = (array, keyword) => {
   let result = [];
   array.forEach((e, i) => {
     if (e === keyword) result.push(i);
   });
+  return result;
+};
+
+// SEARCHMATH FUNCTION - RETURNS AN ARRAY OF POSITION INDEXes OF THE REGEX STRING
+const searchMath = (array, regEx) => {
+  let result = [];
+  const regSearch = regEx;
+  array.forEach((e, i) => {
+    if (e.match(regSearch)) {
+      result.push(i);
+    }
+  });
+
   return result;
 };
 
@@ -71,10 +86,13 @@ const calculate = () => {
     formula_str = formula_str.replace(euler.toReplace, euler.replacement);
   });
 
+  // UPDATES THE FORMULA_STR WITH MULTIPLICATION ADDED WHERE NECESSARY BETWEEN THE EXPRESSION
+  formula_str = AddMultiplication(formula);
+
   // CALCULATE -> EVALUATE THE FORMULA EXPRESSION
   let result;
   try {
-    result = eval(formula_str);
+    result = evaluate(formula_str);
   } catch (error) {
     if (error instanceof SyntaxError) {
       result = "Syntax Error!";
@@ -353,11 +371,9 @@ const inv_trigo = (callback, value) => {
 const getEuler = (formula, EulerSearch) => {
   let EulerNumber = [];
   let numbers = [];
-  let number_str;
 
   // LOOP THROUGH THE INDEX OF THE EULER_SEARCH ARRAY
   EulerSearch.forEach((index) => {
-    let eulerSequence = 0;
     let bracketCount = 0;
 
     // GET THE NUMBER IN-FRONT OF THE EULER FUNCTION
@@ -385,7 +401,6 @@ const getEuler = (formula, EulerSearch) => {
           next_item_index++;
         }
       }
-      console.log(nextNum);
       numbers.push(nextNum);
     }
 
@@ -440,7 +455,57 @@ const getEuler = (formula, EulerSearch) => {
   return EulerNumber;
 };
 
+// CHECK AND ADD * WHERE APPLICABLE FOR THE EXPRESSION
+const AddMultiplication = (formula) => {
+  const regEx = /Math./;
+  const searchResult = searchMath(formula, regEx);
+  let update;
+
+  // LOOP THROUGH THE SEARCH RESULT ARRAY
+  searchResult.forEach((index) => {
+    // GET THE BEHIND VALUE
+    let prev_item = formula[index];
+    let prev_item_index = index === 0 ? undefined : index - 1;
+    
+    // GET THE VALUE IN-FRONT
+    let next_item_index = index + 1;
+    let next_item = formula[next_item_index];
+
+    while (prev_item_index >= 0) {
+      prev_item = formula[prev_item_index];
+      const numbers = "0123456789";
+
+      // CHECK IF THE PREV_ITEM IS THE REQUIRED EXPRESSION AND PASSES THE TEST
+      const isParams = regEx.test(prev_item);
+
+      //CHECK IF THE PREV_ITEM IS AN OPERATOR
+      const isOperator = OPERATORS.includes(formula[prev_item_index]);
+
+      // ADD MULTIPLICATION * 
+      if (prev_item === ")") {
+        if (numbers.includes(next_item)) {
+          formula.splice(index, 0, "*");
+          break;
+        }
+      } else if (numbers.includes(prev_item)) {
+        formula.splice(index, 0, "*");
+      }
+
+      // IF IT'S AN OPERATOR OR REQUESTED PARAMETER, BREAK THE LOOP
+      if (isOperator || isParams) break;
+      prev_item_index--;
+    }
+  });
+
+  return (update = data.formula.join(""));
+};
+
 // STRING INVERSE FUNCTION
 const reverseString = (string) => {
   return [...string].reverse().join("");
+};
+
+// Custom Evaluation function
+const evaluate = (str) => {
+  return Function(`return ${str}`)();
 };
