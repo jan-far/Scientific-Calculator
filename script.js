@@ -62,6 +62,9 @@ const calculate = () => {
   let EULER_SEARCH_RESULT = search(formula, "Math.E");
   let PI_SEARCH = search(formula, "Math.PI");
 
+  // UPDATES THE FORMULA_STR WITH MULTIPLICATION ADDED WHERE NECESSARY BETWEEN THE EXPRESSION
+  formula_str = AddMultiplication(formula);
+
   // GET THE POWER BASE AND REPLACE THE FORMULA ARRAY WITH THE RIGHT FORMULA
   const BASES = getPowerBase(formula, POWER_SEARCH_RESULT);
   BASES.map((base) => {
@@ -85,9 +88,6 @@ const calculate = () => {
   EulerSearch.forEach((euler) => {
     formula_str = formula_str.replace(euler.toReplace, euler.replacement);
   });
-
-  // UPDATES THE FORMULA_STR WITH MULTIPLICATION ADDED WHERE NECESSARY BETWEEN THE EXPRESSION
-  formula_str = AddMultiplication(formula);
 
   // CALCULATE -> EVALUATE THE FORMULA EXPRESSION
   let result;
@@ -463,15 +463,56 @@ const AddMultiplication = (formula) => {
 
   // LOOP THROUGH THE SEARCH RESULT ARRAY
   searchResult.forEach((index) => {
+    // GET THE CURRENT VALUE
+    let current_item = formula[index];
+    // CHECK THE CURRENT INDEX VALUE
+    if (index === 0) {
+      // IGNORE MATH_POWER FUNCTIONS
+      if (current_item === "Math.pow(") {
+        return formula.join("");
+      }
+    } else {
+      if (current_item === "Math.pow(") {
+        return;
+      }
+    }
+
     // GET THE BEHIND VALUE
-    let prev_item = formula[index];
-    let prev_item_index = index === 0 ? undefined : index - 1;
-    
+    let prev_item_index = index === 0 ? 0 : index - 1;
+    let prev_item = formula[prev_item_index];
+
     // GET THE VALUE IN-FRONT
     let next_item_index = index + 1;
     let next_item = formula[next_item_index];
 
+    while (next_item_index < formula.length) {
+      next_item = formula[next_item_index];
+      const numbers = "0123456789";
+
+      // CHECK IF THE PREV_ITEM IS THE REQUIRED EXPRESSION AND PASSES THE TEST
+      const isParams = regEx.test(next_item);
+
+      //CHECK IF THE PREV_ITEM IS AN OPERATOR
+      const isOperator = OPERATORS.includes(formula[next_item_index]);
+
+      // ADD MULTIPLICATION *
+      if (next_item === ")") {
+        if (next_item_index + 1 === formula.length) {
+          break;
+        } else if (isOperator) {
+          break;
+        } else {
+          formula.splice(next_item_index + 1, 0, "*");
+        }
+      }
+
+      // IF IT'S AN OPERATOR OR REQUESTED PARAMETER, BREAK THE LOOP
+      if (isOperator || isParams) break;
+      next_item_index++;
+    }
+
     while (prev_item_index >= 0) {
+      prev_item_index === 0 ? undefined : prev_item_index;
       prev_item = formula[prev_item_index];
       const numbers = "0123456789";
 
@@ -481,7 +522,7 @@ const AddMultiplication = (formula) => {
       //CHECK IF THE PREV_ITEM IS AN OPERATOR
       const isOperator = OPERATORS.includes(formula[prev_item_index]);
 
-      // ADD MULTIPLICATION * 
+      // ADD MULTIPLICATION *
       if (prev_item === ")") {
         if (numbers.includes(next_item)) {
           formula.splice(index, 0, "*");
